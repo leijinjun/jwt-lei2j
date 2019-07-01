@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.lei2j</groupId>
+  <artifactId>jwt-lei2j</artifactId>
+  <version>0.9.0</version>
+  <packaging>jar</packaging>
+
+  <name>jwt-lei2j</name>
+  <url>https://github.com/leijinjun/jwt-lei2j</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <developers>
+    <developer>
+      <id>lei2j</id>
+      <name>leijinjun</name>
+      <email>15300868015@163.com</email>
+      <url>https://github.com/leijinjun</url>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.47</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>jwt-lei2j-${version}</finalName>
+  </build>
+</project>
