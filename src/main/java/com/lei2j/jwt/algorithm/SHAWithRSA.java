@@ -24,7 +24,8 @@ public class SHAWithRSA extends Algorithm {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             Key key = super.getKey();
-            java.security.PublicKey generatePublic = keyFactory.generatePublic(new X509EncodedKeySpec(Base64Util.base64Decode(key.getSecretKey())));
+            java.security.PublicKey generatePublic =
+                    keyFactory.generatePublic(new X509EncodedKeySpec(Base64Util.decode(key.getSecretKey())));
             Signature instance = Signature.getInstance(algorithm);
             instance.initVerify(generatePublic);
             instance.update(input.getBytes(Charset.forName("utf-8")));
@@ -39,7 +40,8 @@ public class SHAWithRSA extends Algorithm {
         try {
             Signature signature = Signature.getInstance(algorithm);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PrivateKey generatePrivate = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64Util.base64Decode(key.getSecretKey())));
+            PrivateKey generatePrivate =
+                    keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64Util.decode(key.getSecretKey())));
             signature.initSign(generatePrivate);
             signature.update(input.getBytes(Charset.forName("utf-8")));
             return signature.sign();

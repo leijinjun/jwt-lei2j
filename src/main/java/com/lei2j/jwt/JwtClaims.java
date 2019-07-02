@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class JwtClaims {
 
-    private Map<String, Object> claims = new HashMap<>(7);
+    private Map<String, Object> claims = new HashMap<>(16);
 
     public JwtClaims() {}
 

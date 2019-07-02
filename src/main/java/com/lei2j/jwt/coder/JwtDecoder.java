@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lei2j.jwt.JwtClaims;
 import com.lei2j.jwt.JwtHeader;
 import com.lei2j.jwt.ReservedClaims;
+import com.lei2j.jwt.exception.JwtDecoderException;
 import com.lei2j.util.Base64Util;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class JwtDecoder {
         this.signature = signature;
     }
 
-    public static JwtDecoder decode(String token) {
+    public static JwtDecoder decode(String token) throws JwtDecoderException {
         Objects.requireNonNull(token,"token is null");
         String[] sp = token.split("\\.");
         if (sp.length != 3) {
@@ -38,13 +39,18 @@ public class JwtDecoder {
         }
         String header = sp[0];
         String payload = sp[1];
-        String headerJson = new String(Base64Util.base64UrlDecode(header));
-        String payloadJson = new String(Base64Util.base64UrlDecode(payload));
-        JwtHeader jwtHeader = JSONObject.parseObject(headerJson, JwtHeader.class);
-        String alg = jwtHeader.getAlg();
-        JwtClaims jwtClaims = new JwtClaims();
-        jwtClaims.putAll(JSONObject.parseObject(payloadJson));
-        return new JwtDecoder(jwtHeader,jwtClaims,String.format("%s.%s",sp[0],sp[1]),sp[2]);
+        String headerJson = new String(Base64Util.decodeUrl(header));
+        String payloadJson = new String(Base64Util.decodeUrl(payload));
+        try {
+            JwtHeader jwtHeader = JSONObject.parseObject(headerJson, JwtHeader.class);
+            String alg = jwtHeader.getAlg();
+            JwtClaims jwtClaims = new JwtClaims();
+            jwtClaims.putAll(JSONObject.parseObject(payloadJson));
+            return new JwtDecoder(jwtHeader, jwtClaims, (sp[0] + "." + sp[1]), sp[2]);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new JwtDecoderException("token decoder error", e.getCause());
+        }
     }
 
     /**

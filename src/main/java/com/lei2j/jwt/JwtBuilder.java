@@ -223,17 +223,17 @@ public class JwtBuilder {
          * header base64 encode
          */
         private String toBase64UrlEncodeHeader() {
-            return Base64Util.base64UrlEncode(JSONObject.toJSONString(jwtHeader));
+            return Base64Util.encodeUrl(JSONObject.toJSONString(jwtHeader));
         }
 
         private String toBase64UrlEncodePayload() {
-            return Base64Util.base64UrlEncode(JSONObject.toJSONString(claims.getClaims()));
+            return Base64Util.encodeUrl(JSONObject.toJSONString(claims.getClaims()));
         }
 
-        public String sign(Algorithm algorithm){
-        	jwtHeader.setAlg(algorithm.alg());
-            String data = String.format("%s.%s",toBase64UrlEncodeHeader(),toBase64UrlEncodePayload());
-            return String.format("%s.%s",data, Base64Util.base64UrlEncode(algorithm.sign(data)));
+        public String sign(Algorithm algorithm) {
+            jwtHeader.setAlg(algorithm.alg());
+            String data = toBase64UrlEncodeHeader() + "." + toBase64UrlEncodePayload();
+            return data + "." + Base64Util.encodeUrl(algorithm.sign(data));
         }
     }
 }

@@ -21,10 +21,10 @@ public class JwtVerify {
         this.claimsValidator = claimsValidator;
     }
 
-    public boolean verify(){
+    public boolean verify() {
         String signature = jwtDecoder.getSignature();
         String payload = jwtDecoder.getPayload();
-        byte[] bs = Base64Util.base64UrlDecode(signature);
-        return claimsValidator.validate(jwtDecoder)&& algorithm.verify(payload, bs);
+        byte[] bs = Base64Util.decodeUrl(signature);
+        return algorithm.verify(payload, bs) && claimsValidator.validate(jwtDecoder);
     }
 }

@@ -25,7 +25,7 @@ public class SHAWithECDSA extends Algorithm {
 			KeyFactory keyFactory = KeyFactory.getInstance("EC");
 			com.lei2j.jwt.algorithm.Key key = super.getKey();
 			PublicKey generatePublic = keyFactory
-                    .generatePublic(new X509EncodedKeySpec(Base64Util.base64Decode(key.getSecretKey())));
+                    .generatePublic(new X509EncodedKeySpec(Base64Util.decode(key.getSecretKey())));
 			Signature instance = Signature.getInstance(algorithm);
 			instance.initVerify(generatePublic);
 			instance.update(input.getBytes(Charset.forName("utf-8")));
@@ -39,7 +39,8 @@ public class SHAWithECDSA extends Algorithm {
 	private static byte[] sign(String algorithm, Key privateKey, String input) {
 		try {
 			KeyFactory keyFactory = KeyFactory.getInstance("EC");
-			PrivateKey generatePrivate = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64Util.base64Decode(privateKey.getSecretKey())));
+			PrivateKey generatePrivate =
+					keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64Util.decode(privateKey.getSecretKey())));
 			Signature signature = Signature.getInstance(algorithm);
 			signature.initSign(generatePrivate);
 			byte[] bs = input.getBytes(Charset.forName("utf-8"));
