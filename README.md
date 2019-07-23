@@ -4,21 +4,28 @@
 # 介绍
 本项目是JWT规范使用JAVA语言的一种实现。
 目前还在测试阶段，不建议在生产环境中使用，如果有兴趣的话，可以一起交流学习。
-目前对于JWT规范中算法实现以下`HS256`、`HS384`、`HS512`、`RS256`、`RS384`、`RS512`、`ES256`、`ES384`、`ES512`。
+目前对于JWT规范中算法实现以下`HS256`、`HS384`、`HS512`、`RS256`、`RS384`、`RS512`、`ES256`、`ES384`、`ES512`.
 # 使用
 1. 生成JWT字符串
-2. ``//构建一个Jwt对象
-Jwt jwt = JwtBuilder.builder().setIssuedAt(new Date()).setAudience("www").addPublicClaim("name","冰与火")
-.setIssuer("lei").build(); ``
-3. ``//使用SH256算法及密钥123456生成一个token
-String jwtToken = jwt.sign(Algorithm.hmacSHA256("123456"));``
-4. 验证jwt字符串
-5. ``String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3d3ciLCJuYW1lIjoi5Yaw5LiO54GrIiwiaXNzIjoibGVpIiwiaWF0IjoxNTYzODkyOTkyMDQxfQ.8oG70bSpQtJhQdH3yaf8XD4sMhQfIo73RE_0OkeSRMQ";
-    //解析JWT字符串
-    JwtDecoder jwtDecoder = JwtDecoder.decode(token);
-    //根据对应的算法、密钥，使用Jwt校验器来校验该Jwt token字符串是否验证通过
-    JwtVerify jwtVerify = new JwtVerify(jwtDecoder, Algorithm.hmacSHA256("123456"),new DefaultJwtClaimsValidator());
-    //验证
-    jwtVerify.verify();
-``
+```java 
+//构建一个Jwt对象
+Jwt jwt = JwtBuilder.builder()
+.setIssuedAt(new Date())
+.setAudience("www")
+.addPublicClaim("name","冰与火")
+.setIssuer("lei")
+.build(); 
+//使用SH256算法及密钥123456生成一个token
+String jwtToken = jwt.sign(Algorithm.hmacSHA256("123456"));
+```
+2. 验证jwt字符串
+```java
+String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3d3ciLCJuYW1lIjoi5Yaw5LiO54GrIiwiaXNzIjoibGVpIiwiaWF0IjoxNTYzODkyOTkyMDQxfQ.8oG70bSpQtJhQdH3yaf8XD4sMhQfIo73RE_0OkeSRMQ";
+//解析JWT字符串
+JwtDecoder jwtDecoder = JwtDecoder.decode(token);
+//根据对应的算法、密钥，使用Jwt校验器来校验该Jwt token字符串是否验证通过
+JwtVerify jwtVerify = new JwtVerify(jwtDecoder, Algorithm.hmacSHA256("123456"),new DefaultJwtClaimsValidator());
+//验证
+jwtVerify.verify();
+```
 
