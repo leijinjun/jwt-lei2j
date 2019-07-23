@@ -7,9 +7,11 @@
 目前对于JWT规范中算法实现以下`HS256`、`HS384`、`HS512`、`RS256`、`RS384`、`RS512`、`ES256`、`ES384`、`ES512`。
 # 使用
 1. 生成JWT字符串
-2. ``Jwt jwt = JwtBuilder.builder().setIssuedAt(new Date()).setAudience("www").addPublicClaim("name","冰与火")
-.setIssuer("lei").build(); ``,构建一个Jwt对象
-3. ``String jwtToken = jwt.sign(Algorithm.hmacSHA256("123456"));``,使用SH256算法及密钥123456生成一个token。
+2. ``//构建一个Jwt对象
+Jwt jwt = JwtBuilder.builder().setIssuedAt(new Date()).setAudience("www").addPublicClaim("name","冰与火")
+.setIssuer("lei").build(); ``
+3. ``//使用SH256算法及密钥123456生成一个token
+String jwtToken = jwt.sign(Algorithm.hmacSHA256("123456"));``
 4. 验证jwt字符串
 5. ``String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3d3ciLCJuYW1lIjoi5Yaw5LiO54GrIiwiaXNzIjoibGVpIiwiaWF0IjoxNTYzODkyOTkyMDQxfQ.8oG70bSpQtJhQdH3yaf8XD4sMhQfIo73RE_0OkeSRMQ";
     //解析JWT字符串
