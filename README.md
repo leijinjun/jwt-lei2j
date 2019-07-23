@@ -18,6 +18,7 @@ Jwt jwt = JwtBuilder.builder()
 //使用SH256算法及密钥123456生成一个token
 String jwtToken = jwt.sign(Algorithm.hmacSHA256("123456"));
 ```
+---
 2. 验证jwt字符串
 ```java
 String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3d3ciLCJuYW1lIjoi5Yaw5LiO54GrIiwiaXNzIjoibGVpIiwiaWF0IjoxNTYzODkyOTkyMDQxfQ.8oG70bSpQtJhQdH3yaf8XD4sMhQfIo73RE_0OkeSRMQ";
