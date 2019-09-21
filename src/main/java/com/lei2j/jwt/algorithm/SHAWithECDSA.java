@@ -20,12 +20,12 @@ public class SHAWithECDSA extends Algorithm {
 	}
 
 	@Override
-	public boolean verify(String input,byte[] signature){
+	public boolean verify(String input, byte[] signature) {
 		try {
 			KeyFactory keyFactory = KeyFactory.getInstance("EC");
 			com.lei2j.jwt.algorithm.Key key = getKey();
 			PublicKey generatePublic = keyFactory
-                    .generatePublic(new X509EncodedKeySpec(Base64Util.decode(key.getSecretKey())));
+					.generatePublic(new X509EncodedKeySpec(Base64Util.decode(key.getSecretKey())));
 			Signature instance = Signature.getInstance(algorithm);
 			instance.initVerify(generatePublic);
 			instance.update(input.getBytes(Charset.forName("utf-8")));
