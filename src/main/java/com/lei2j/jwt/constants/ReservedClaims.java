@@ -1,4 +1,4 @@
-package com.lei2j.jwt;
+package com.lei2j.jwt.constants;
 
 /**
  * Created by lei2j on 2018/12/2.

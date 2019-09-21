@@ -2,8 +2,10 @@ package com.lei2j.jwt;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lei2j.jwt.algorithm.Algorithm;
+import com.lei2j.jwt.constants.ReservedClaims;
 import com.lei2j.util.Base64Util;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -230,7 +232,7 @@ public class JwtBuilder {
             return Base64Util.encodeUrl(JSONObject.toJSONString(claims.getClaims()));
         }
 
-        public String sign(Algorithm algorithm) {
+        public String sign(Algorithm algorithm) throws NoSuchAlgorithmException {
             jwtHeader.setAlg(algorithm.alg());
             String data = toBase64UrlEncodeHeader() + "." + toBase64UrlEncodePayload();
             return data + "." + Base64Util.encodeUrl(algorithm.sign(data));

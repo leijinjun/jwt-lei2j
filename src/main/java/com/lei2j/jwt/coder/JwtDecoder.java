@@ -3,7 +3,7 @@ package com.lei2j.jwt.coder;
 import com.alibaba.fastjson.JSONObject;
 import com.lei2j.jwt.JwtClaims;
 import com.lei2j.jwt.JwtHeader;
-import com.lei2j.jwt.ReservedClaims;
+import com.lei2j.jwt.constants.ReservedClaims;
 import com.lei2j.jwt.exception.JwtDecoderException;
 import com.lei2j.util.Base64Util;
 
@@ -33,6 +33,7 @@ public class JwtDecoder {
 
     public static JwtDecoder decode(String token) throws JwtDecoderException {
         Objects.requireNonNull(token,"token is null");
+        token = token.replaceAll("[\\r\\n]","");
         String[] sp = token.split("\\.");
         if (sp.length != 3) {
             throw new IllegalArgumentException("token is incorrect");
