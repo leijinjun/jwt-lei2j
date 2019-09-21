@@ -16,7 +16,4 @@ public class Key {
 		return secretKey;
 	}
 
-	public void setSecretKey(String secretKey) {
-		this.secretKey = secretKey;
-	}
 }

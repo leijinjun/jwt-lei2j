@@ -8,6 +8,23 @@ import java.util.Arrays;
 
 public class HmacSHA extends Algorithm {
 
+	public enum HmacType {
+
+		HS256("HmacSHA256"),
+		HS384("HmacSHA384"),
+		HS512("HmacSHA512");
+
+		private String algorithm;
+
+		HmacType(String algorithm) {
+			this.algorithm = algorithm;
+		}
+
+		public String getAlgorithm() {
+			return algorithm;
+		}
+	}
+
 	public HmacSHA(String name,String algorithm, Key key) {
 		super(name,algorithm,key);
 	}
@@ -35,5 +52,18 @@ public class HmacSHA extends Algorithm {
 		Key key = super.getKey();
 		byte[] data = hmacSha(algorithm, input, key.getSecretKey().getBytes(Charset.forName("utf-8")));
 		return data != null && Arrays.equals(data, signature);
+	}
+
+	public static byte[] hmacSha(HmacType hmacType, String origin, byte[] key) {
+		try {
+			String algorithm = hmacType.getAlgorithm();
+			Mac mac = Mac.getInstance(algorithm);
+			SecretKey secretKey = new SecretKeySpec(key, algorithm);
+			mac.init(secretKey);
+			return mac.doFinal(origin.getBytes(Charset.forName("utf-8")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -15,7 +15,7 @@ public class SHAWithECDSA extends Algorithm {
 
 	@Override
 	public byte[] sign(String input) {
-		com.lei2j.jwt.algorithm.Key key = super.getKey();
+		com.lei2j.jwt.algorithm.Key key = getKey();
 		return sign(algorithm, key, input);
 	}
 
@@ -23,7 +23,7 @@ public class SHAWithECDSA extends Algorithm {
 	public boolean verify(String input,byte[] signature){
 		try {
 			KeyFactory keyFactory = KeyFactory.getInstance("EC");
-			com.lei2j.jwt.algorithm.Key key = super.getKey();
+			com.lei2j.jwt.algorithm.Key key = getKey();
 			PublicKey generatePublic = keyFactory
                     .generatePublic(new X509EncodedKeySpec(Base64Util.decode(key.getSecretKey())));
 			Signature instance = Signature.getInstance(algorithm);
@@ -43,8 +43,7 @@ public class SHAWithECDSA extends Algorithm {
 					keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64Util.decode(privateKey.getSecretKey())));
 			Signature signature = Signature.getInstance(algorithm);
 			signature.initSign(generatePrivate);
-			byte[] bs = input.getBytes(Charset.forName("utf-8"));
-			signature.update(bs);
+			signature.update(input.getBytes(Charset.forName("utf-8")));
 			return signature.sign();
 		} catch (Exception e) {
 			e.printStackTrace();
