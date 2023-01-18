@@ -44,7 +44,7 @@
   <distributionManagement>
     <repository>
       <id>release</id>
-      <url>http://nexus.lei2j.com:8000/repository/maven-releases/</url>
+      <url>https://nexus.lei2j.com:8000/repository/maven-releases/</url>
     </repository>
   </distributionManagement>
 
