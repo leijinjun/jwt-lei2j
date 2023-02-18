@@ -6,7 +6,7 @@ import com.lei2j.jwt.validator.JwtVerify;
 import com.lei2j.jwt.algorithm.Algorithm;
 import org.junit.Test;
 
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.Date;
 
 /**
@@ -15,7 +15,7 @@ import java.util.Date;
 public class TestJwt {
 
     @Test
-    public void test1() throws NoSuchAlgorithmException {
+    public void test1() throws NoSuchAlgorithmException, KeyStoreException {
         String jwt = JwtBuilder.builder().setIssuedAt(new Date())
                 .setAudience("www").addPublicClaim("name","冰与火")
                 .setIssuer("lei").build()
@@ -46,6 +46,8 @@ public class TestJwt {
                         "Kh4jBSgBqYVqJSTAWR/mJt0oRtsmtip/d6ushuJlAKNO55Y8ShBqDHFEdgVH5dz/" +
                         "YbZqahCRBd50htxTdC1jurVy"));
         System.out.println(jwt);
+        final KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        System.out.println(keyStore);
     }
 
     @Test
@@ -91,6 +93,21 @@ public class TestJwt {
                 "Kh4jBSgBqYVqJSTAWR/mJt0oRtsmtip/d6ushuJlAKNO55Y8ShBqDHFEdgVH5dz/" +
                 "YbZqahCRBd50htxTdC1jurVy";
         System.out.println(s.replaceAll("[\\r\\n]",""));
+    }
+
+    @Test
+    public void test4() throws NoSuchAlgorithmException, JwtDecoderException {
+        Long iat = System.currentTimeMillis() / 1000;
+        final String sign = JwtBuilder.builder().addPublicClaim("iss", "9wGa0Wyip4Q7BDNdC4d4J0eCmUXTZ1ZO")
+                .addPublicClaim("iat", iat)
+                .addPublicClaim("nbf", iat - 5)
+                .addPublicClaim("exp", iat + 60)
+                .build()
+                .sign(Algorithm.hmacSHA256("iOWORRnA1sJ7peVTFk72FgKwmuWHKDPQ"));
+        System.out.println(sign);
+        JwtDecoder jwtDecoder = JwtDecoder.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5d0dhMFd5aXA0UTdCRE5kQzRkNEowZUNtVVhUWjFaTyIsImlhdCI6MTY3NDAxNDA4NSwibmJmIjoxNjc0MDE0MDgwLCJleHAiOjE2NzQwMTQxNDV9.WjtK8MmE0RkIY-rCzrEmZTMWqeTzjuGgTVDOyvyDr2E");
+        final JwtVerify jwtVerify = new JwtVerify(jwtDecoder, Algorithm.hmacSHA256("iOWORRnA1sJ7peVTFk72FgKwmuWHKDPQ"), new DefaultJwtClaimsValidator());
+        System.out.println(jwtVerify.verify());
     }
 
 }
